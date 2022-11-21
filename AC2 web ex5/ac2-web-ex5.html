@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <!-- https://cdnjs.com/libraries/twitter-bootstrap/5.0.0-beta1 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
+    />
+
+    <!-- Icons: https://getbootstrap.com/docs/5.0/extend/icons/ -->
+    <!-- https://cdnjs.com/libraries/font-awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <title>AC2 WEB JS</title>
+  </head>
+  <body>
+      <div class="container">
+        <div class="row md">
+
+          <!--Exercicio Four-->
+          <div class="row">
+            <label">TABUADA DO 5</label>
+            <input type="text" name="TabuTxt" class="form-control">
+          </div>
+          <div div class="row">
+            <button onclick="taBuada()" class="btn btn-success">Calcular</button>
+          </div>
+          <div class="col-md-12">
+            <label>Resultado</label>
+            <input type="text" name="resultadoTabuada" id="resultadoTabuada" class="form-control" disabled>
+          </div>
+
+          <!--Exercicio Five-->
+          <div class="col-md-6">
+            <label>Selecione um número: </label>
+            <input type="number" name="valor1" id="valor1" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label>Selecione outro número: </label>
+            <input type="number" name="valor2" id="valor2" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <button onclick="adicao()" class="btn btn-primary">+</button>
+            <button onclick="subtracao()" class="btn btn-primary">-</button>
+            <button onclick="multiplicacao()" class="btn btn-primary">x</button>
+            <button onclick="divisao()" class="btn btn-primary">%</button>
+          </div>
+          <div class="col-md-12">
+            <label>Resultado: </label>
+            <input type="number" name="calcResultado" id="calcResultado" class="form-control" disabled>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exercicio Seven -->
+
+      <div class="col-md-12">
+        <label>Custo da fabrica: </label>
+        <input type="text" name="custoFab" id="custoFab" class="form-control">
+      </div>
+      <div class="col-md-12">
+        <label>Preço do Distribuidor: </label>
+        <input type="text" name="percDist" id="percDist" class="form-control">
+      </div>
+      <div class="col-md-12">
+        <label>Custo de Impostos: </label>
+        <input type="text" name="percImp" id="percImp" class="form-control">
+      </div>
+      <div class="row">
+        <button onclick="btnCalcular()" class="btn btn-success">Calcular</button>
+      </div>
+      <div class="col-md-12">
+        <label>Valor Final:</label>
+        <input type="text" name="valorFinal" id="valorFinal" class="form-control" disabled>
+      </div>
+    </div>
+  </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+    <script src="javascript.js"></script>
+  </body>
+</html>
