@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <!-- https://cdnjs.com/libraries/twitter-bootstrap/5.0.0-beta1 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
+    />
+
+    <!-- Icons: https://getbootstrap.com/docs/5.0/extend/icons/ -->
+    <!-- https://cdnjs.com/libraries/font-awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <title>AC2 web ex6</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+<!--                 <input onkeyup="filtrar()" type="text" placeholder="Pesquisar..."
+                id="pesquisar" class="form-control"> -->
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" id="btnAdd" type="button" data-bs-toggle="modal" data-bs-target="#addUsuarioModal">
+                    <i class="bi bi-plus-lg"></i>Adicionar</button>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Telefone</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody">
+                  </tbody>
+                </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">ADICIONAR USUARIO</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form">
+          <div class="modal-body">
+            
+              <input type="text" placeholder="Nome" required id="nome" name="nome" class="form-control">
+              <input type="email" placeholder="E-mail" required id="email" name="email" class="form-control">
+              <input type="text" placeholder="Telefone" required id="telefone" name="telefone" class="form-control">
+            
+
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCancelar">CANCELAR</button>
+          <button type="button" onclick="Salvar()" class="btn btn-primary" id="btnSalvar">SALVAR</button>
+          <button type="submit" class="btn btn-secondary" id="btnSinc" style="background-color: green;">SINCRONIZAR</button>
+        </div>
+    </form>
+    </div>
+        </div>
+     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+    <script>
+     var usuarios = [];
+
+     document.addEventListener("DOMContentLoaded",function(e){
+      document.getElementById('form').addEventListener("submit", function (e) {
+        e.preventDefault();
+        salvarUsuario();
+      })
+      });
+
+      //Salvar em um array
+      function Salvar(){
+        var setNome = document.getElementById('nome').value;
+        var setEmail = document.getElementById('email').value;
+        var setTelefone = document.getElementById('telefone').value;
+
+        /* length (numero de itens dentro dessa lista) */
+        if (usuarios.length < 1) 
+          /* Abrindo a lista, na possicao 0 */ /* CRiando um objeto, com os indexs, nome, email, telefone e atribuindo os valores dos inputs (setNome, setemail, settelefone) */
+          usuarios[0] = {nome: setNome, email: setEmail, telefone: setTelefone};
+         /* ['0', '1'] usuarios[2] */
+        else usuarios[usuarios.length] = {nome: setNome, email: setEmail, telefone: setTelefone};
+        atualizarTabela(setNome, setEmail, setTelefone);
+
+      }
+
+      function atualizarTabela(user, email, telefone){
+        let tbody = document.getElementById('tbody');
+        let tr = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+
+        td1.appendChild(document.createTextNode(user));
+        td2.appendChild(document.createTextNode(email));
+        td3.appendChild(document.createTextNode(telefone));
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+        tbody.appendChild(tr);
+      }
+
+
+      function salvarUsuario(){
+        usuarios.forEach(function(get) {
+         // console.log('get', get);
+         // console.log('JSON.stringify(get)', JSON.stringify(get));
+          fetch('https://63055f7d697408f7edc56890.mockapi.io/Usuario', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(get)
+          })
+        })
+        alert('Salvo com sucesso!')
+        usuarios = []; 
+      }
+
+
+
+
+/*       function buscarUsuarios(){
+              fetch('https://63055f7d697408f7edc56890.mockapi.io/Usuario')
+             .then ((response) => response.json()
+             .then ((data) => {
+                 usuarios = data;
+                 atualizarTabela(usuArray);
+             })
+             );
+            }
+            function filtrar(){
+                let filtro = document.getElementById('pesquisar').value;
+                usuArray = usuarios.filter(u => 
+                u.nome.startsWith(filtro) ||
+                u.email.startsWith(filtro) ||
+                u.id ==filtro);
+
+                atualizarTabela(usuArray);
+            }
+
+            function atualizarTabela(array){
+                let tbody = document.getElementById('tbody');
+                tbody.innerHTML = '';
+                array.forEach(usu => {
+                    let tr = document.createElement('tr');
+                    let tdNome = document.createElement('td');
+                    tdId.innerHTML = usu.nome;
+                    let tdEmail = document.createElement('td');
+                    tdNome.innerHTML = usu.email;
+                    let tdTelefone = document.createElement('td');
+                    tdEmail.innerHTML = usu.telefone;
+                    tr.appendChild(tdNome);
+                    tr.appendChild(tdEmail);
+                    tr.appendChild(tdTelefone);
+                    tbody.appendChild(tr);
+                }) 
+            } */
+
+    </script>
+  </body>
+</html>
+    
